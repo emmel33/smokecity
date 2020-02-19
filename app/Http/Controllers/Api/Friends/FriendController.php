@@ -1,0 +1,262 @@
+<?php
+
+namespace App\Http\Controllers\Api\Friends;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\UserFriend;
+use App\Models\ResponseModel;
+use App\User;
+use App\Models\UserLocation;
+
+class FriendController extends Controller
+{
+    public function addFriend(Request $request){
+        $loginUser= $this->getAuthUser($request);
+        $existingRequest=UserFriend::where('userid', $loginUser->id)
+                                    ->where('friendid', $request->userid)
+                                    ->count();
+        //return response()->json($existingRequest);
+        if($existingRequest>0){
+            $obj=new ResponseModel("Your have already a request pending.",null,1,null);
+            return response()->json($obj);
+        }
+       
+        $uf=new UserFriend();
+        $uf->status="Pending";
+        $uf->friendid=$request->userid;
+        $uf->userid=$loginUser->id;
+        $uf->save();
+
+        $obj=new ResponseModel("Your friend request successfully sent.",$uf,1,null);
+        return response()->json($obj);
+
+    }
+
+    public function acceptFriend(Request $request){
+        $loginUser= $this->getAuthUser($request);
+        $existingRequest=UserFriend::where('friendid', $loginUser->id)
+                                    ->where('userid', $request->userid);
+        if($existingRequest->count()==0){
+            $obj=new ResponseModel("No Pending request found.",null,1,null);
+            return response()->json($obj);
+        }
+       
+        $uf=$existingRequest->first();
+        $uf->status="Active";
+        $uf->save();
+
+        $obj=new ResponseModel("Your friend request successfully accepted.",$uf,1,null);
+        return response()->json($obj);
+
+    }
+
+    public function rejectFriend(Request $request){
+        $loginUser= $this->getAuthUser($request);
+        $existingRequest=UserFriend::where('friendid', $loginUser->id)
+                                    ->where('userid', $request->userid)
+                                    ->delete();;
+        
+        $obj=new ResponseModel("Your friend request successfully rejected.",null,1,null);
+        return response()->json($obj);
+        // $obj=$this->getUserListWithDetails($loginUser->id,[1,2,3,4,5,6,7,8,10]);
+        // return response()->json($obj);
+    }
+
+    public function userDetails(Request $request){
+        $loginUser= $this->getAuthUser($request);
+        $userList=array();
+        array_push($userList,$request->userId);
+
+        //return response()->json($userList);
+        $users=$this->getUserListWithDetails($loginUser->id,$userList);
+        $obj=new ResponseModel("",$users[0],1,null);
+
+        return response()->json($obj);
+    }
+
+    public function searchUser(Request $request){
+        $loginUser= $this->getAuthUser($request);
+        $existingUser=User::where("name", 'like', '%'.$request->keyword.'%')
+                                    ->orWhere("email", 'like', '%'.$request->keyword.'%')
+									->orWhere("full_name", 'like', '%'.$request->keyword.'%')//geändert, hinzugefügt
+                                    ->get();
+
+        //return response()->json($existingUser);
+        $userList=array();
+        for ($x = 0; $x < count($existingUser); $x++) {
+            array_push($userList,$existingUser[$x]->id);
+        }
+        //return response()->json($userList);
+        $users=$this->getUserListWithDetails($loginUser->id,$userList);
+        $obj=new ResponseModel("",$users,1,null);
+
+        return response()->json($obj);
+    }
+    public function getPendingFriendList(Request $request){
+        $loginUser= $this->getAuthUser($request);
+        $existingRequest=UserFriend::where('friendid', $loginUser->id)
+                                    ->where('status', 'Pending')
+                                    ->get();
+        //$obj=["loginUser"=>$loginUser,"existingRequest"=>$existingRequest];
+        //return response()->json($obj);
+
+        $userList=array();
+        for ($x = 0; $x < count($existingRequest); $x++) {
+            array_push($userList,$existingRequest[$x]->userid);
+        }
+        
+        $users=$this->getUserListWithDetails($loginUser->id,$userList);
+       
+        $obj=new ResponseModel("",$users,1,null);
+
+        return response()->json($obj);
+    }
+
+    public function getActiveFriendList(Request $request){
+        $loginUser= $this->getAuthUser($request);
+        $existingRequest=UserFriend::where('friendid', $loginUser->id)
+                                    ->OrWhere('userid', $loginUser->id)
+                                    ->get();
+       // $existingRequest=$existingRequest->where('status', 'Active')->get();
+
+        $userList=array();
+        $uniqueUser=[];
+        $uniqueUser[$loginUser->id]=true;
+        for ($x = 0; $x < count($existingRequest); $x++) {
+            if($existingRequest[$x]->status!='Active'){
+                continue;
+            }
+            if(!array_key_exists($existingRequest[$x]->userid,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->userid);
+                $uniqueUser[$existingRequest[$x]->userid]=true;
+            }
+
+            if(!array_key_exists($existingRequest[$x]->friendid,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->friendid);
+                $uniqueUser[$existingRequest[$x]->friendid]=true;
+            }
+            
+        }
+        
+        $users=$this->getUserListWithDetails($loginUser->id,$userList);
+       
+        $obj=new ResponseModel("",$users,1,null);
+
+        return response()->json($obj);
+    }
+
+    public function getFriendListOnMap(Request $request){
+        $loginUser= $this->getAuthUser($request);
+        $existingRequest=UserFriend::where('friendid', $loginUser->id)
+                                    ->OrWhere('userid', $loginUser->id)
+                                    ->where('status', 'Active')
+                                    ->get();
+        $userList=array();
+        $uniqueUser=[];
+        $uniqueUser[$loginUser->id]=true;
+        for ($x = 0; $x < count($existingRequest); $x++) {
+            if(!array_key_exists($existingRequest[$x]->userid,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->userid);
+                $uniqueUser[$existingRequest[$x]->userid]=true;
+            }
+
+            if(!array_key_exists($existingRequest[$x]->friendid,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->friendid);
+                $uniqueUser[$existingRequest[$x]->friendid]=true;
+            }
+            
+        }
+
+        $users=$this->getUserListWithDetails($loginUser->id,$userList);
+
+        $own=[
+            "email"=>null,
+            "name"=>null,
+            "auth"=>null,
+            "userses"=>$users
+        ];
+        $obj=new ResponseModel("",$own,1,null);
+
+        return response()->json($obj);
+    }
+
+    public function getUserListWithDetails($currentUserId,$listUserId){
+        $userList = User::find($listUserId);
+        $frindStatusList = UserFriend::where('userid', $currentUserId)
+                                       ->OrWhere('friendid',$currentUserId )
+                                       ->get();
+        $locationList = UserLocation::whereIn("userid",$listUserId)
+                                    ->orderBy('date', 'desc')
+                                    
+                                    ->get();
+        //return $frindStatusList;
+        $set = new \Ds\Set();
+
+        $locationUniqueList=[];
+        for ($x = 0; $x < count($locationList); $x++) {
+            if($set->contains($locationList[$x]->userid)){
+                continue;
+            }
+            $set->add($locationList[$x]->userid);
+            array_push($locationUniqueList,$locationList[$x]);
+        }
+        $locationList=$locationUniqueList;
+        $user=[];
+        for ($x = 0; $x < count($userList); $x++) {
+            $obj=[
+                "id"=>$userList[$x]->id,
+				"name"=>$userList[$x]->name,
+                "email"=>$userList[$x]->email,
+                "status"=>null,
+                "lat"=>null,
+                "long1"=>null,
+                "ufid"=>null
+            ];
+            $user[$userList[$x]->id]=$obj;
+        }
+
+        //return ["fl"=>$frindStatusList,"ul"=>$userList,"li"=>$listUserId];
+        for ($x = 0; $x < count($frindStatusList); $x++) {
+            if(array_key_exists($frindStatusList[$x]->userid,$user)){
+                $obj=$user[$frindStatusList[$x]->userid];
+                
+                $obj["status"]=$frindStatusList[$x]->status;
+                //$obj["ufid"]=$frindStatusList[$x]->id;
+                $obj["ufid"]=$frindStatusList[$x]->userid;
+
+                $user[$frindStatusList[$x]->userid]=$obj;
+            }else if(array_key_exists($frindStatusList[$x]->friendid,$user)){
+                //$obj=$user[$frindStatusList[$x]->friendid];
+                $obj=$user[$frindStatusList[$x]->friendid];
+                
+                $obj["status"]=$frindStatusList[$x]->status;
+                //$obj["ufid"]=$frindStatusList[$x]->id;
+                $obj["ufid"]=$frindStatusList[$x]->userid;
+                $user[$frindStatusList[$x]->friendid]=$obj;
+            }
+            
+        }
+
+        //return ["locationList"=>$locationList,"user"=>$user];
+        for ($x = 0; $x < count($locationList); $x++) {
+            if(array_key_exists($locationList[$x]->userid,$user)){
+                $obj=$user[$locationList[$x]->userid];
+                $obj["lat"]=$locationList[$x]->lat;
+                $obj["long1"]=$locationList[$x]->long1;
+                $user[$locationList[$x]->userid]=$obj;
+            }
+            
+        }
+        
+        $arr=array();
+        for ($x = 0; $x < count($userList); $x++) {
+            array_push($arr,$user[$userList[$x]->id]);
+        }
+        return $arr;
+    }
+    public function getAuthUser(Request $request)
+    {
+        return auth('api')->user();
+    }
+}
