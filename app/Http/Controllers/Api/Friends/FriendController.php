@@ -20,7 +20,7 @@ class FriendController extends Controller
         //userid ist die angefragte Freundesid
 		//id die eigene ID	
         if($existingRequest>0){
-            $obj=new ResponseModel("Your have already a request pending.",null,1,null);
+            $obj=new ResponseModel("You have already a request pending.",null,1,null);
             return response()->json($obj);
         }
 		
@@ -252,14 +252,14 @@ class FriendController extends Controller
                 $obj["ufid"]=$frindStatusList[$x]->userid;
 
                 $user[$frindStatusList[$x]->userid]=$obj;
-            }else if(array_key_exists($frindStatusList[$x]->friendid,$user)){
+            }else if(array_key_exists($frindStatusList[$x]->second_id,$user)){
                 //$obj=$user[$frindStatusList[$x]->friendid];
-                $obj=$user[$frindStatusList[$x]->friendid];
+                $obj=$user[$frindStatusList[$x]->second_id];
                 
                 $obj["status"]=$frindStatusList[$x]->status;
                 //$obj["ufid"]=$frindStatusList[$x]->id;
                 $obj["ufid"]=$frindStatusList[$x]->userid;
-                $user[$frindStatusList[$x]->friendid]=$obj;
+                $user[$frindStatusList[$x]->second_id]=$obj;
             }
             
         }
