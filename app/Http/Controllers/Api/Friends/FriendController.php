@@ -13,8 +13,8 @@ class FriendController extends Controller
 {
     public function addFriend(Request $request){
         $loginUser= $this->getAuthUser($request);
-        $existingRequest=UserFriend::where('userid', $loginUser->id)
-                                    ->where('friendid', $request->userid)
+        $existingRequest=UserFriend::where('first_id', $loginUser->id)
+                                    ->where('second_id', $request->userid)
                                     ->count();
         //return response()->json($existingRequest);
         if($existingRequest>0){
@@ -35,8 +35,8 @@ class FriendController extends Controller
 
     public function acceptFriend(Request $request){
         $loginUser= $this->getAuthUser($request);
-        $existingRequest=UserFriend::where('friendid', $loginUser->id)
-                                    ->where('userid', $request->userid);
+        $existingRequest=UserFriend::where('second_id', $loginUser->id)
+                                    ->where('first_id', $request->userid);
         if($existingRequest->count()==0){
             $obj=new ResponseModel("No Pending request found.",null,1,null);
             return response()->json($obj);
@@ -53,8 +53,8 @@ class FriendController extends Controller
 
     public function rejectFriend(Request $request){
         $loginUser= $this->getAuthUser($request);
-        $existingRequest=UserFriend::where('friendid', $loginUser->id)
-                                    ->where('userid', $request->userid)
+        $existingRequest=UserFriend::where('second_id', $loginUser->id)
+                                    ->where('first_id', $request->userid)
                                     ->delete();;
         
         $obj=new ResponseModel("Your friend request successfully rejected.",null,1,null);
@@ -78,11 +78,11 @@ class FriendController extends Controller
 	
 	    public function removeFriend(Request $request){
         $loginUser= $this->getAuthUser($request);
-        $existingRequest=UserFriend::where('friendid', $loginUser->id)
-                                    ->where('userid', $request->userid)
+        $existingRequest=UserFriend::where('second_id', $loginUser->id)
+                                    ->where('first_id', $request->userid)
                                     ->delete();;
-		$existingRequest=UserFriend::where('friendid', $request->userid)
-                                    ->where('userid', $loginUser->id)
+		$existingRequest=UserFriend::where('second_id', $request->userid)
+                                    ->where('first_id', $loginUser->id)
                                     ->delete();;
         
         $obj=new ResponseModel("Your friend is successfully removed.",null,1,null);
@@ -110,7 +110,7 @@ class FriendController extends Controller
     }
     public function getPendingFriendList(Request $request){
         $loginUser= $this->getAuthUser($request);
-        $existingRequest=UserFriend::where('friendid', $loginUser->id)
+        $existingRequest=UserFriend::where('second_id', $loginUser->id)
                                     ->where('status', 'Pending')
                                     ->get();
         //$obj=["loginUser"=>$loginUser,"existingRequest"=>$existingRequest];
@@ -130,8 +130,8 @@ class FriendController extends Controller
 
     public function getActiveFriendList(Request $request){
         $loginUser= $this->getAuthUser($request);
-        $existingRequest=UserFriend::where('friendid', $loginUser->id)
-                                    ->OrWhere('userid', $loginUser->id)
+        $existingRequest=UserFriend::where('second_id', $loginUser->id)
+                                    ->OrWhere('first_id', $loginUser->id)
                                     ->get();
        // $existingRequest=$existingRequest->where('status', 'Active')->get();
 
@@ -163,8 +163,8 @@ class FriendController extends Controller
 
     public function getFriendListOnMap(Request $request){
         $loginUser= $this->getAuthUser($request);
-        $existingRequest=UserFriend::where('friendid', $loginUser->id)
-                                    ->OrWhere('userid', $loginUser->id)
+        $existingRequest=UserFriend::where('second_id', $loginUser->id)
+                                    ->OrWhere('first_id', $loginUser->id)
                                     ->where('status', 'Active')
                                     ->get();
         $userList=array();
@@ -198,8 +198,8 @@ class FriendController extends Controller
 
     public function getUserListWithDetails($currentUserId,$listUserId){
         $userList = User::find($listUserId);
-        $frindStatusList = UserFriend::where('userid', $currentUserId)
-                                       ->OrWhere('friendid',$currentUserId )
+        $frindStatusList = UserFriend::where('first_id', $currentUserId)
+                                       ->OrWhere('second_id',$currentUserId )
                                        ->get();
         $locationList = UserLocation::whereIn("userid",$listUserId)
                                     ->orderBy('date', 'desc')

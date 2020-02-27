@@ -11,9 +11,9 @@ class UserFriend extends Model
     public $timestamps = false;
     protected $table="user_friends";
     protected $fillable=[
-        'id',
+        'friendship_id',
         'status',
-        'friendid',
-        'userid'
+        'first_id',
+        'second_id'
     ];
 }
