@@ -213,7 +213,7 @@ class FriendController extends Controller
                                        ->OrWhere('second_id',$currentUserId )
                                        ->get();
         $locationList = UserLocation::whereIn("userid",$listUserId)
-                                    ->orderBy('date', 'desc')
+                                    //->orderBy('date', 'desc')
                                     
                                     ->get();
         //return $frindStatusList;
