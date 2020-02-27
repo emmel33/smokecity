@@ -10,10 +10,11 @@ class UserLocation extends Model
     public $timestamps = false;
     protected $table="user_location";
     protected $fillable=[
-        'id',
+		'userid',
         'date',
         'lat',
         'long1',
-        'userid'
+		'active'
+        
     ];
 }

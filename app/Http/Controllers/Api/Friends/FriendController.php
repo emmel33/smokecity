@@ -16,16 +16,18 @@ class FriendController extends Controller
         $existingRequest=UserFriend::where('first_id', $loginUser->id)
                                     ->where('second_id', $request->userid)
                                     ->count();
-        //return response()->json($existingRequest);
+		
+        //userid ist die angefragte Freundesid
+		//id die eigene ID	
         if($existingRequest>0){
             $obj=new ResponseModel("Your have already a request pending.",null,1,null);
             return response()->json($obj);
         }
        
         $uf=new UserFriend();
-        $uf->status="Pending";
-        $uf->friendid=$request->userid;
-        $uf->userid=$loginUser->id;
+		$uf->first_id=$loginUser->id;
+        $uf->second_id=$request->userid;
+		$uf->status="Pending";
         $uf->save();
 
         $obj=new ResponseModel("Your friend request successfully sent.",$uf,1,null);

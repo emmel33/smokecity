@@ -12,13 +12,12 @@ class LocationController extends Controller
     //
     public function setUserLocation(Request $request){
         $loginUser= $this->getAuthUser($request);
-        $userLocation=new UserLocation();
+		$loginUser->userid;
+		$userLocation = DB::select('select * from user_location where userid = ?', [$userid]);
         $userLocation->date=now();
-
-        $userLocation->userid = $loginUser->id;
-        $userLocation->lat = $request->lat;
+		$userLocation->lat = $request->lat;
         $userLocation->long1 = $request->long1;
-
+		$userLocation->active = 1;
         $userLocation->save();
 
         $obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
