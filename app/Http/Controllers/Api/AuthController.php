@@ -108,6 +108,8 @@ class AuthController extends Controller
         $obj=new ResponseModel("",null,0,["This username is already taken"]);
         return response()->json($obj);
       }
+	  $obj=new ResponseModel("Still free","FREE_NAME",1,null);
+      return response()->json($obj);
     }
 
     
