@@ -39,3 +39,5 @@ Route::post('Friends/Search', 'Api\Friends\FriendController@searchUser');
 Route::post('UserDetails', 'Api\Friends\FriendController@userDetails');
 
 Route::post('Location', 'Api\Location\LocationController@setUserLocation');
+
+Route::post( 'notify', 'Firebase\NotificationController@notify' );

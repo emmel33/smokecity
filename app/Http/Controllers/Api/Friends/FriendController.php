@@ -80,10 +80,10 @@ class FriendController extends Controller
         $loginUser= $this->getAuthUser($request);
         $existingRequest=UserFriend::where('friendid', $loginUser->id)
                                     ->where('userid', $request->userid)
-                                    ->delete();;
+                                    ->deleteData();;
 		$existingRequest=UserFriend::where('friendid', $request->userid)
                                     ->where('userid', $loginUser->id)
-                                    ->delete();;
+                                    ->deleteData();;
         
         $obj=new ResponseModel("Your friend is successfully removed.",null,1,null);
         return response()->json($obj);
