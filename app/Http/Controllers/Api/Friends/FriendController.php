@@ -23,6 +23,15 @@ class FriendController extends Controller
             $obj=new ResponseModel("Your have already a request pending.",null,1,null);
             return response()->json($obj);
         }
+		
+		$existingRequest=UserFriend::where('first_id', $request->userid)
+									->where('second_id', $loginUser->id)
+                                    ->count();
+									
+		if($existingRequest>0){
+            $obj=new ResponseModel("You have an outstanding a request from your friend.",null,1,null);
+            return response()->json($obj);
+        }
        
         $uf=new UserFriend();
 		$uf->first_id=$loginUser->id;
