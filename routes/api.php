@@ -26,6 +26,7 @@ Route::get('Logout', 'Api\AuthController@logout');
 Route::get('User', 'Api\AuthController@getAuthUser');
 Route::post('SetToken', 'Api\AuthController@setAppToken');
 Route::post('SetName', 'Api\AuthController@setUserFullname');
+Route::post('CheckName', 'Api\AuthController@checkUserFullname');
 
 Route::post('Friends/Add', 'Api\Friends\FriendController@addFriend');
 Route::post('Friends/Accept', 'Api\Friends\FriendController@acceptFriend');
