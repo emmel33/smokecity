@@ -92,6 +92,12 @@ class AuthController extends Controller
 
     public function setUserFullname(Request $request){
       $loginUser=$this->getAuthUser($request);
+	  
+	  $existingUser=User::where("full_name",$request->full_name)->count();
+      if($existingUser>0){
+        $obj=new ResponseModel("",null,0,["This username is already taken"]);
+        return response()->json($obj);
+      }
       
       $user=User::find($loginUser->original->id);
       $user->full_name=$request->full_name;

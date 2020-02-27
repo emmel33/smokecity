@@ -30,6 +30,7 @@ Route::post('SetName', 'Api\AuthController@setUserFullname');
 Route::post('Friends/Add', 'Api\Friends\FriendController@addFriend');
 Route::post('Friends/Accept', 'Api\Friends\FriendController@acceptFriend');
 Route::post('Friends/Reject', 'Api\Friends\FriendController@rejectFriend');
+Route::post('Friends/Remove', 'Api\Friends\FriendController@removeFriend');
 Route::get('Friends/getFriendsOnMap', 'Api\Friends\FriendController@getFriendListOnMap');
 Route::get('Friends', 'Api\Friends\FriendController@getPendingFriendList');
 Route::get('MyFriends', 'Api\Friends\FriendController@getActiveFriendList');
