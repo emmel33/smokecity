@@ -122,7 +122,6 @@ class FriendController extends Controller
     public function getPendingFriendList(Request $request){
         $loginUser= $this->getAuthUser($request);
         $existingRequest=UserFriend::where('second_id', $loginUser->id)
-									->OrWhere('first_id', $loginUser->id)
                                     ->where('status', 'Pending')
                                     ->get();
         //$obj=["loginUser"=>$loginUser,"existingRequest"=>$existingRequest];
@@ -130,7 +129,7 @@ class FriendController extends Controller
 
         $userList=array();
         for ($x = 0; $x < count($existingRequest); $x++) {
-            array_push($userList,$existingRequest[$x]->userid);
+            array_push($userList,$existingRequest[$x]->second_id);
         }
         
         $users=$this->getUserListWithDetails($loginUser->id,$userList);
