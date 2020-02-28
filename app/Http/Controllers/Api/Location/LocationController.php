@@ -18,7 +18,8 @@ class LocationController extends Controller
 		if ($userLocation == null) {
 		$temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [0,0,0,0,0]);
 		$obj=new ResponseModel("No entrys.",$userLocation,1,null);
-        return response()->json($obj);	
+        return response()->json($obj);
+		}		
 		if ($userLocation != null) {
 			
 	    $temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [0,0,0,0,0]);
