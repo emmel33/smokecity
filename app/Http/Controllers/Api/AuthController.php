@@ -139,7 +139,7 @@ class AuthController extends Controller
       $data=[
         "email" =>  $email,
         "name" => $user[0]->name,
-        "userid" => $user[0]->id,
+        "id" => $user[0]->id,
         "auth" => 'bearer '.$token,
         "userses" => null
       ];
