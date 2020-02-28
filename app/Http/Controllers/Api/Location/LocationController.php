@@ -18,7 +18,7 @@ class LocationController extends Controller
 		//if ($userLocation == 0) {
 		$obj=new ResponseModel("No entrys.",$userLocation,1,null);
         return response()->json($obj);	
-		/}
+		//}
 		/*if ($userLocation != 0) {
         $userLocation->date=now();
 		$userLocation->lat = $request->lat;
