@@ -54,7 +54,7 @@ class FriendController extends Controller
         }
        
         $uf=$existingRequest->first();
-		//$uf=$existingRequest[0];
+	
         $uf->status="Active";
         $uf->save();
 
@@ -172,7 +172,7 @@ class FriendController extends Controller
 
         return response()->json($obj);
     }
-
+//unten muss noch bearbeitet werden
     public function getFriendListOnMap(Request $request){
         $loginUser= $this->getAuthUser($request);
         $existingRequest=UserFriend::where('second_id', $loginUser->id)
@@ -215,7 +215,6 @@ class FriendController extends Controller
                                        ->get();
         $locationList = UserLocation::whereIn("userid",$listUserId)
                                     //->orderBy('date', 'desc')
-                                    
                                     ->get();
         //return $frindStatusList;
         $set = new \Ds\Set();
@@ -245,21 +244,21 @@ class FriendController extends Controller
 
         //return ["fl"=>$frindStatusList,"ul"=>$userList,"li"=>$listUserId];
         for ($x = 0; $x < count($frindStatusList); $x++) {
-            if(array_key_exists($frindStatusList[$x]->userid,$user)){
-                $obj=$user[$frindStatusList[$x]->userid];
+            if(array_key_exists($frindStatusList[$x]->second_id,$user)){
+                $obj=$user[$frindStatusList[$x]->second_id];
                 
                 $obj["status"]=$frindStatusList[$x]->status;
                 //$obj["ufid"]=$frindStatusList[$x]->id;
-                $obj["ufid"]=$frindStatusList[$x]->userid;
+                $obj["ufid"]=$frindStatusList[$x]->second_id;
 
-                $user[$frindStatusList[$x]->userid]=$obj;
+                $user[$frindStatusList[$x]->second_id]=$obj;
             }else if(array_key_exists($frindStatusList[$x]->second_id,$user)){
                 //$obj=$user[$frindStatusList[$x]->friendid];
                 $obj=$user[$frindStatusList[$x]->second_id];
                 
                 $obj["status"]=$frindStatusList[$x]->status;
                 //$obj["ufid"]=$frindStatusList[$x]->id;
-                $obj["ufid"]=$frindStatusList[$x]->userid;
+                $obj["ufid"]=$frindStatusList[$x]->second_id;
                 $user[$frindStatusList[$x]->second_id]=$obj;
             }
             
@@ -282,6 +281,8 @@ class FriendController extends Controller
         }
         return $arr;
     }
+	
+	
     public function getAuthUser(Request $request)
     {
         return auth('api')->user();

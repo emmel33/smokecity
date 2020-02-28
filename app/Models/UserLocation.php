@@ -9,6 +9,7 @@ class UserLocation extends Model
 {
     public $timestamps = false;
     protected $table="user_location";
+	protected $primaryKey = 'userid';
     protected $fillable=[
 		'userid',
         'date',
