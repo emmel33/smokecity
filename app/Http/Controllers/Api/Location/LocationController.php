@@ -13,15 +13,17 @@ class LocationController extends Controller
     //
     public function setUserLocation(Request $request){
         $loginUser= $this->getAuthUser($request);
+		
 		$userid= $loginUser->userid;
 		$lat= $request->lat;
 		$long= $request->long1;
 		
 		$userLocation = DB::select('select * from user_location where userid = ?', [$userid]);
+		
 		if ($userLocation == null) {
 		$temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [$userid,now(),$lat,$long,1]);
 		
-		$obj=new ResponseModel("No entrys.",$userLocation,1,null);
+		$obj=new ResponseModel("Userid is $userid",$userLocation,1,null);
         return response()->json($obj);
 		}		
 		if ($userLocation != null) {
