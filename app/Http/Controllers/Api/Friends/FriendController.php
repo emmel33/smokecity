@@ -215,7 +215,7 @@ class FriendController extends Controller
                                        ->OrWhere('second_id',$currentUserId )
                                        ->get();
         $locationList = UserLocation::whereIn("userid",$listUserId)
-		                             ->whereNotIn("lat","NULL")
+		                             ->whereNotIn("lat",NULL)//nur wichtig für orts-liste
                                     //->orderBy('date', 'desc')
                                     ->get();
         //return $frindStatusList;
