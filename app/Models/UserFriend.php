@@ -9,6 +9,7 @@ class UserFriend extends Model
     //
     public $incrementing = true;
     public $timestamps = false;
+	protected $primaryKey = 'friendship_id';
     protected $table="user_friends";
     protected $fillable=[
         'friendship_id',
