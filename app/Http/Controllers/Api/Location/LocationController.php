@@ -16,13 +16,13 @@ class LocationController extends Controller
 		$userid= $loginUser->userid;
 		$userLocation = DB::select('select * from user_location where userid = ?', [$userid]);
 		if ($userLocation == null) {
-		$temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [0,0,0,0,0]);
+		$temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [0,date,0,0,0]);
 		$obj=new ResponseModel("No entrys.",$userLocation,1,null);
         return response()->json($obj);
 		}		
 		if ($userLocation != null) {
 			
-	    $temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [0,0,0,0,0]);
+	    $temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [0,date,0,0,0]);
         $userLocation->date=now();
 		$userLocation->lat = $request->lat;
         $userLocation->long1 = $request->long1;
