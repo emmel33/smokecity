@@ -129,7 +129,7 @@ class FriendController extends Controller
 
         $userList=array();
         for ($x = 0; $x < count($existingRequest); $x++) {
-            array_push($userList,$existingRequest[$x]->second_id);
+            array_push($userList,$existingRequest[$x]->first_id);
         }
         
         $users=$this->getUserListWithDetails($loginUser->id,$userList);
