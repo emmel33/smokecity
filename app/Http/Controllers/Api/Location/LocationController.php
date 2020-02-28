@@ -13,7 +13,7 @@ class LocationController extends Controller
     //
     public function setUserLocation(Request $request){
         $loginUser= $this->getAuthUser($request);
-		$loginUser->userid;
+		$userid= $loginUser->userid;
 		$userLocation = DB::select('select * from user_location where userid = ?', [$userid]);
 		if ($userLocation == 0) {
 		$obj=new ResponseModel("No entrys.",$userLocation,1,null);
