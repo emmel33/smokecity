@@ -122,6 +122,7 @@ class FriendController extends Controller
     public function getPendingFriendList(Request $request){
         $loginUser= $this->getAuthUser($request);
         $existingRequest=UserFriend::where('second_id', $loginUser->id)
+									->OrWhere('first_id', $loginUser->id)
                                     ->where('status', 'Pending')
                                     ->get();
         //$obj=["loginUser"=>$loginUser,"existingRequest"=>$existingRequest];
