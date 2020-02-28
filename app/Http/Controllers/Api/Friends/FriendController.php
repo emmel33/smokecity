@@ -196,6 +196,7 @@ class FriendController extends Controller
         }
 
         $users=$this->getUserListWithDetails($loginUser->id,$userList);
+		
 
         $own=[
             "email"=>null,
@@ -214,6 +215,7 @@ class FriendController extends Controller
                                        ->OrWhere('second_id',$currentUserId )
                                        ->get();
         $locationList = UserLocation::whereIn("userid",$listUserId)
+		                             ->whereNotIn("lat","NULL")
                                     //->orderBy('date', 'desc')
                                     ->get();
         //return $frindStatusList;
