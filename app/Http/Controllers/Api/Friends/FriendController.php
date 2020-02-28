@@ -53,7 +53,8 @@ class FriendController extends Controller
             return response()->json($obj);
         }
        
-        $uf=$existingRequest->first();
+        //$uf=$existingRequest->first();
+		$uf=$existingRequest[0];
         $uf->status="Active";
         $uf->save();
 
