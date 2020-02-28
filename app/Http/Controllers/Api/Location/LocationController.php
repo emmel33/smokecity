@@ -14,7 +14,7 @@ class LocationController extends Controller
     public function setUserLocation(Request $request){
         $loginUser= $this->getAuthUser($request);
 		
-		$userid= $loginUser->userid;
+		$userid= $loginUser->id;
 		$lat= $request->lat;
 		$long= $request->long1;
 		
