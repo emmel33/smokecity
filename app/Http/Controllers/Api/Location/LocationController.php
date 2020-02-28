@@ -14,22 +14,20 @@ class LocationController extends Controller
     public function setUserLocation(Request $request){
         $loginUser= $this->getAuthUser($request);
 		$userid= $loginUser->userid;
+		$lat= $request->lat;
+		$long= $request->long1;
+		
 		$userLocation = DB::select('select * from user_location where userid = ?', [$userid]);
 		if ($userLocation == null) {
-		$temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [0,now(),0,0,0]);
+		$temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [$userid,now(),$lat,$long,1]);
+		
 		$obj=new ResponseModel("No entrys.",$userLocation,1,null);
         return response()->json($obj);
 		}		
 		if ($userLocation != null) {
-			
-	    $temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [0,now(),0,0,0]);
-        $userLocation->date=now();
-		$userLocation->lat = $request->lat;
-        $userLocation->long1 = $request->long1;
-		$userLocation->active = 1;
-        $userLocation->save();
 
-        $obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
+	    $temp = DB::select('UPDATE user_location SET date=?, lat=?, long1=?, active=1 WHERE userid=?', [now(),$lat,$long,$userid]);
+		$obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
         return response()->json($obj);
 		}
     }
