@@ -153,14 +153,14 @@ class FriendController extends Controller
             if($existingRequest[$x]->status!='Active'){
                 continue;
             }
-            if(!array_key_exists($existingRequest[$x]->userid,$uniqueUser)){
-                array_push($userList,$existingRequest[$x]->userid);
-                $uniqueUser[$existingRequest[$x]->userid]=true;
+            if(!array_key_exists($existingRequest[$x]->first_id,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->first_id);
+                $uniqueUser[$existingRequest[$x]->first_id]=true;
             }
 
-            if(!array_key_exists($existingRequest[$x]->friendid,$uniqueUser)){
-                array_push($userList,$existingRequest[$x]->friendid);
-                $uniqueUser[$existingRequest[$x]->friendid]=true;
+            if(!array_key_exists($existingRequest[$x]->second_id,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->second_id);
+                $uniqueUser[$existingRequest[$x]->second_id]=true;
             }
             
         }
@@ -182,14 +182,14 @@ class FriendController extends Controller
         $uniqueUser=[];
         $uniqueUser[$loginUser->id]=true;
         for ($x = 0; $x < count($existingRequest); $x++) {
-            if(!array_key_exists($existingRequest[$x]->userid,$uniqueUser)){
-                array_push($userList,$existingRequest[$x]->userid);
-                $uniqueUser[$existingRequest[$x]->userid]=true;
+            if(!array_key_exists($existingRequest[$x]->first_id,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->first_id);
+                $uniqueUser[$existingRequest[$x]->first_id]=true;
             }
 
-            if(!array_key_exists($existingRequest[$x]->friendid,$uniqueUser)){
-                array_push($userList,$existingRequest[$x]->friendid);
-                $uniqueUser[$existingRequest[$x]->friendid]=true;
+            if(!array_key_exists($existingRequest[$x]->second_id,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->second_id);
+                $uniqueUser[$existingRequest[$x]->second_id]=true;
             }
             
         }
