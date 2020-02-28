@@ -15,7 +15,7 @@ class LocationController extends Controller
         $loginUser= $this->getAuthUser($request);
 		$loginUser->userid;
 		$userLocation = DB::select('select * from user_location where userid = ?', [$userid]);
-		if $userLocation == 0 {
+		if ($userLocation == 0) {
 		$obj=new ResponseModel("No entrys.",$userLocation,1,null);
         return response()->json($obj);	
 		}
