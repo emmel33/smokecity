@@ -252,14 +252,14 @@ class FriendController extends Controller
                 $obj["ufid"]=$frindStatusList[$x]->second_id;
 
                 $user[$frindStatusList[$x]->second_id]=$obj;
-            }else if(array_key_exists($frindStatusList[$x]->second_id,$user)){
+            }else if(array_key_exists($frindStatusList[$x]->first_id,$user)){
                 //$obj=$user[$frindStatusList[$x]->friendid];
-                $obj=$user[$frindStatusList[$x]->second_id];
+                $obj=$user[$frindStatusList[$x]->first_id];
                 
                 $obj["status"]=$frindStatusList[$x]->status;
                 //$obj["ufid"]=$frindStatusList[$x]->id;
                 $obj["ufid"]=$frindStatusList[$x]->second_id;
-                $user[$frindStatusList[$x]->second_id]=$obj;
+                $user[$frindStatusList[$x]->first_id]=$obj;
             }
             
         }
