@@ -37,10 +37,24 @@ class LocationController extends Controller
 		if ($userLocation != null) {
 
 	    $temp = DB::select('UPDATE user_location SET date=?, long1=?, lat=?, timeactive=? WHERE userid=?', [now(),$long,$lat,$timeactive,$userid]);
+		//---------------------LocationUpdate-----------------------
+		$server_key = 'AAAAgR6vc9U:APA91bFkqVhnQDMX9MyZXuqrJoNcjwl8e0qFWlcQZWVjwW52NFXm7KDRKGdZN_Hv0HyjocpzZEtrE7rOkbDQSkSsEaideEry3PfygwyHNR7zWAvmGbSwDYh8LEVzaspsLuq9GI0peDSt';
+		$client = new Client();
+		$client->setApiKey($server_key);
+		$client->injectGuzzleHttpClient(new \GuzzleHttp\Client());
 		
-		
-		
-		
+		$message = new Message();
+		$message->setPriority('high');
+		$message->addRecipient(new Device('dIkEmJb0Hgw:APA91bFDGltZh5fDetlKOpZp4quZP9YNlmpyj2LHQeFEnzZ1nQtHc5HTcvhh5rxY8mRptGCbfsutUf1QBV0rSP_GTpQwaG8zK9SxV2rhJUMxLVRpgzHmtNgoioV65h_0rGLxcZdN1Stu'));
+		//$message->addRecipient(new Device('_YOUR_DEVICE_TOKEN_2_'));
+		//$message->addRecipient(new Device('_YOUR_DEVICE_TOKEN_3_'));
+		$message
+			->setNotification(new Notification('some title', 'some body'))
+			->setData(['key' => 'value']);
+			
+		$response = $client->send($message);
+		//var_dump($response->getStatusCode());
+		//var_dump($response->getBody()->getContents());
 		
 		
 		$obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
