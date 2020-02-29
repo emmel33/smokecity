@@ -8,6 +8,7 @@ use App\Models\UserLocation;
 use App\Models\ResponseModel;
 use Illuminate\Support\Facades\DB;
 use App\Models\UserFriend;
+use App\User;
 
 use sngrl\PhpFirebaseCloudMessaging\Client;
 use sngrl\PhpFirebaseCloudMessaging\Message;
