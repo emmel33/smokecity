@@ -76,7 +76,7 @@ class LocationController extends Controller
 		
 			
 		}
-		$friend = $wholeuserList->name
+		$friend = $wholeuserList->name;
 		$message
 			->setNotification(new Notification('Come and enjoy!', "Your friend ". $friend ." is currently also smoking! Why you don't join him?"))
 			->setData(['key' => 'value']);
