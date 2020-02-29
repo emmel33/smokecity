@@ -45,6 +45,40 @@ class LocationController extends Controller
 		
 		$message = new Message();
 		$message->setPriority('normal');
+		//----------------Freunde finden--------------------
+		$existingRequest=UserFriend::where('second_id', $loginUser->id)
+                                    ->OrWhere('first_id', $loginUser->id)
+                                    ->where('status', 'Active')
+                                    ->get();
+        $userList=array();
+        $uniqueUser=[];
+        $uniqueUser[$loginUser->id]=true;
+        for ($x = 0; $x < count($existingRequest); $x++) {
+            if(!array_key_exists($existingRequest[$x]->first_id,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->first_id);
+                $uniqueUser[$existingRequest[$x]->first_id]=true;
+            }
+
+            if(!array_key_exists($existingRequest[$x]->second_id,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->second_id);
+                $uniqueUser[$existingRequest[$x]->second_id]=true;
+            }
+            
+        }
+		$wholeuserList = User::find($userList);//villeicht auch unnotig
+		for ($x = 0; $x < count($wholeuserList); $x++) {
+		
+		$message->addRecipient(new Device($userList[$x]->app_token));
+		//$message->addRecipient(new Device('dEc7UCC_9MA:APA91bHJrEg1GoCvRDrIH2AeLRaSVjfKazqkwZrXq23ROtd9REJzUf1MIuHSPAiCpMTtS3285BAvNL8GxArh1hM2FQrBSqk6EFCFNN0A5BEW2ArsryWvH7HtHQOSjTRA2pWV52-0rUTV'));
+
+		
+			
+		}
+		
+		
+		
+		
+		
 		$message->addRecipient(new Device('dIkEmJb0Hgw:APA91bFDGltZh5fDetlKOpZp4quZP9YNlmpyj2LHQeFEnzZ1nQtHc5HTcvhh5rxY8mRptGCbfsutUf1QBV0rSP_GTpQwaG8zK9SxV2rhJUMxLVRpgzHmtNgoioV65h_0rGLxcZdN1Stu'));
 		$message->addRecipient(new Device('dEc7UCC_9MA:APA91bHJrEg1GoCvRDrIH2AeLRaSVjfKazqkwZrXq23ROtd9REJzUf1MIuHSPAiCpMTtS3285BAvNL8GxArh1hM2FQrBSqk6EFCFNN0A5BEW2ArsryWvH7HtHQOSjTRA2pWV52-0rUTV'));
 		//$message->addRecipient(new Device('_YOUR_DEVICE_TOKEN_3_'));
