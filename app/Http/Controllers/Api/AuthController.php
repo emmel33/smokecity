@@ -102,7 +102,7 @@ class AuthController extends Controller
 	    
 	public function checkUserFullname(Request $request){
       $loginUser=$this->getAuthUser($request);
-	  $existingUser[];
+	  $existingUser=[];
 	  $existingUser=User::where("full_name",$request->full_name)
 								->whereNotIn("id",$loginUser->original->id)
 								->count();
