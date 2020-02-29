@@ -111,6 +111,17 @@ class AuthController extends Controller
 	  $obj=new ResponseModel("Still free","FREE_NAME",1,null);
       return response()->json($obj);
     }
+	
+	public function getUserFullname(Request $request){
+      $loginUser=$this->getAuthUser($request);
+	  //$user=User::find($request->id)
+	  //oder
+	  $user=User::find($loginUser->id);
+	  
+	  $userfullname=$user->full_name;
+	  $obj=new ResponseModel("",$userfullname,1,null);
+      return response()->json($obj);
+    }
 
     
     public function getAuthUser(Request $request)

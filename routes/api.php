@@ -24,6 +24,7 @@ Route::post('RegisterUser', 'Api\AuthController@registerUser');
 Route::post('LoginUser', 'Api\AuthController@loginUser');
 Route::get('Logout', 'Api\AuthController@logout');
 Route::get('User', 'Api\AuthController@getAuthUser');
+Route::get('GetName', 'Api\AuthController@getUserFullname');
 Route::post('SetToken', 'Api\AuthController@setAppToken');
 Route::post('SetName', 'Api\AuthController@setUserFullname');
 Route::post('CheckName', 'Api\AuthController@checkUserFullname');

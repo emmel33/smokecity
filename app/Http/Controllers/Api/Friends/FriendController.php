@@ -220,18 +220,7 @@ class FriendController extends Controller
 		                             //->whereNotIn("lat","NULL")//nur wichtig für orts-liste
                                     //->orderBy('date', 'desc')
                                     ->get();
-        //return $frindStatusList;
-        $set = new \Ds\Set();
 
-        $locationUniqueList=[];
-        for ($x = 0; $x < count($locationList); $x++) {
-            if($set->contains($locationList[$x]->userid)){
-                continue;
-            }
-            $set->add($locationList[$x]->userid);
-            array_push($locationUniqueList,$locationList[$x]);
-        }
-        $locationList=$locationUniqueList;
         $user=[];
         for ($x = 0; $x < count($userList); $x++) {
             $obj=[
