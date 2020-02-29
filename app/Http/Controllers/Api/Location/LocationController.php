@@ -69,7 +69,7 @@ class LocationController extends Controller
         }
 		$wholeuserList = User::find($userList);
 		for ($x = 0; $x < count($wholeuserList); $x++) {
-		
+		if($wholeuserList[$x]->app_token != null){
 		$message->addRecipient(new Device($wholeuserList[$x]->app_token));
 		//$message->addRecipient(new Device('dEc7UCC_9MA:APA91bHJrEg1GoCvRDrIH2AeLRaSVjfKazqkwZrXq23ROtd9REJzUf1MIuHSPAiCpMTtS3285BAvNL8GxArh1hM2FQrBSqk6EFCFNN0A5BEW2ArsryWvH7HtHQOSjTRA2pWV52-0rUTV'));
 
@@ -84,6 +84,7 @@ class LocationController extends Controller
 		$message->setJsonKey("webpush", ["headers" => ["TTL" => $messagetimeout . ""]]);
 		if(count($wholeuserList)!= 0){
 		$response = $client->send($message);
+		}
 		}
 		}
 		//$obj=new ResponseModel("Info:",$message,1,null); //zum debuggen
