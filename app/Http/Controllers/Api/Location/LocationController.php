@@ -76,9 +76,9 @@ class LocationController extends Controller
 		
 			
 		}
-		
+		$friend = $wholeuserList->name
 		$message
-			->setNotification(new Notification('Hallo', 'Nachricht'))
+			->setNotification(new Notification('Come and enjoy!', "Your friend ". $friend ." is currently also smoking! Why you don't join him?"))
 			->setData(['key' => 'value']);
 	
 		$messagetimeout = "1800"; //zeit wie lange benachrichtung gespeichert wird
@@ -88,7 +88,7 @@ class LocationController extends Controller
 		if(count($wholeuserList)!= 0){
 		$response = $client->send($message);
 		}
-		$obj=new ResponseModel("Info:",$message,1,null);
+		$obj=new ResponseModel("Info:",$message,1,null); //zum debuggen
 		//$obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
         return response()->json($obj);
 		}
