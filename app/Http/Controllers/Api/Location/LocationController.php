@@ -51,6 +51,12 @@ class LocationController extends Controller
 		$message
 			->setNotification(new Notification('Hallo', 'Nachricht'))
 			->setData(['key' => 'value']);
+		$log->debug("Serialized message before adding timeouts: " . json_encode($message));
+		$messagetimeout = "60";
+		$message->setJsonKey("apns", ["headers" => ["apns-expiration" => time() + $messagetimeout]]);
+		$message->setJsonKey("android", ["ttl" => $messagetimeout . "s"]);
+		$message->setJsonKey("webpush", ["headers" => ["TTL" => $messagetimeout . ""]]);
+		$log->debug("Serialized message after adding timeouts: " . json_encode($message));
 			
 		$response = $client->send($message);
 		//var_dump($response->getStatusCode());
