@@ -15,7 +15,7 @@ class UserLocation extends Model
         'date',
 		'long1',
         'lat',
-		'active'
+		'timeactive'
         
     ];
 }
