@@ -336,7 +336,7 @@ class FriendController extends Controller
 					$timestamp=$locationList[$x]->date;
 					$oldtime=strtotime($timestamp);
 					
-					if((now()-$oldtime) > 1800){
+					if((time()-$oldtime) > 1800){
 						$obj["lat"]=null;
 						$obj["long1"]=null;
 					}else{
