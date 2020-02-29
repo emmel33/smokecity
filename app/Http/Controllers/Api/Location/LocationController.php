@@ -21,14 +21,14 @@ class LocationController extends Controller
 		$userLocation = DB::select('select * from user_location where userid = ?', [$userid]);
 		
 		if ($userLocation == null) {
-		$temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [$userid,now(),$lat,$long,1]);
+		$temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [$userid,now(),$long,$lat,1]);
 		
 		$obj=new ResponseModel("Userid is $userid",$userLocation,1,null);
         return response()->json($obj);
 		}		
 		if ($userLocation != null) {
 
-	    $temp = DB::select('UPDATE user_location SET date=?, lat=?, long1=?, active=1 WHERE userid=?', [now(),$lat,$long,$userid]);
+	    $temp = DB::select('UPDATE user_location SET date=?, long1=?, lat=?, active=1 WHERE userid=?', [now(),$long,$lat,$userid]);
 		$obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
         return response()->json($obj);
 		}

@@ -336,7 +336,7 @@ class FriendController extends Controller
 					$timestamp=$locationList[$x]->date;
 					$oldtime=strtotime($timestamp);
 					
-					if((time()-$oldtime) > 1800){
+					if((time()-$oldtime) > 3600){ //3600 Sekunden is man aktive(=1h)
 						$obj["lat"]=null;
 						$obj["long1"]=null;
 					}else{

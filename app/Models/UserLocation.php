@@ -13,8 +13,8 @@ class UserLocation extends Model
     protected $fillable=[
 		'userid',
         'date',
+		'long1',
         'lat',
-        'long1',
 		'active'
         
     ];
