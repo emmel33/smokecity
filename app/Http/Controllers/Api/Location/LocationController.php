@@ -46,10 +46,10 @@ class LocationController extends Controller
 		$message = new Message();
 		$message->setPriority('high');
 		$message->addRecipient(new Device('dIkEmJb0Hgw:APA91bFDGltZh5fDetlKOpZp4quZP9YNlmpyj2LHQeFEnzZ1nQtHc5HTcvhh5rxY8mRptGCbfsutUf1QBV0rSP_GTpQwaG8zK9SxV2rhJUMxLVRpgzHmtNgoioV65h_0rGLxcZdN1Stu'));
-		//$message->addRecipient(new Device('_YOUR_DEVICE_TOKEN_2_'));
+		$message->addRecipient(new Device('drzGN8eN5oY:APA91bE6jOVYu4--i6QE_QRK4Rfbmf05q4n-zohHVwDAVa9S4_ONbXGqZSp_1OAC82aZWmYdkkQvkoXG3NINZjLaDiYSBuJOd1NA9QGJirKRdclp7Y3DANqYMGrAxnuBmjDUKSsnbMWi'));
 		//$message->addRecipient(new Device('_YOUR_DEVICE_TOKEN_3_'));
 		$message
-			->setNotification(new Notification('some title', 'some body'))
+			->setNotification(new Notification('Hallo', 'Nachricht'))
 			->setData(['key' => 'value']);
 			
 		$response = $client->send($message);
