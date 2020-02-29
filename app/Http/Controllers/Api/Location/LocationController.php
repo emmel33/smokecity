@@ -85,8 +85,9 @@ class LocationController extends Controller
 		$message->setJsonKey("apns", ["headers" => ["apns-expiration" => time() + $messagetimeout]]);
 		$message->setJsonKey("android", ["ttl" => $messagetimeout . "s"]);
 		$message->setJsonKey("webpush", ["headers" => ["TTL" => $messagetimeout . ""]]);
+		if(count($wholeuserList)!= 0){
 		$response = $client->send($message);
-		
+		}
 		$obj=new ResponseModel("Info:",$userLocation,1,null);
 		//$obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
         return response()->json($obj);
