@@ -13,7 +13,7 @@ use sngrl\PhpFirebaseCloudMessaging\Message;
 use sngrl\PhpFirebaseCloudMessaging\Recipient\Device;
 use sngrl\PhpFirebaseCloudMessaging\Notification;
 
-use App\Http\Controllers\Firebase\NotificationController
+use App\Http\Controllers\Firebase\NotificationController;
 
 class LocationController extends Controller
 {
