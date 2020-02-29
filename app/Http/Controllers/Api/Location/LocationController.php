@@ -88,7 +88,7 @@ class LocationController extends Controller
 		if(count($wholeuserList)!= 0){
 		$response = $client->send($message);
 		}
-		$obj=new ResponseModel("Info:",$userLocation,1,null);
+		$obj=new ResponseModel("Info:",$message,1,null);
 		//$obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
         return response()->json($obj);
 		}
