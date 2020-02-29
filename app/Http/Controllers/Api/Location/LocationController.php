@@ -70,7 +70,7 @@ class LocationController extends Controller
 		$wholeuserList = User::find($userList);//villeicht auch unnotig
 		for ($x = 0; $x < count($wholeuserList); $x++) {
 		
-		$message->addRecipient(new Device($userList[$x]->app_token));
+		$message->addRecipient(new Device($wholeuserList[$x]->app_token));
 		//$message->addRecipient(new Device('dEc7UCC_9MA:APA91bHJrEg1GoCvRDrIH2AeLRaSVjfKazqkwZrXq23ROtd9REJzUf1MIuHSPAiCpMTtS3285BAvNL8GxArh1hM2FQrBSqk6EFCFNN0A5BEW2ArsryWvH7HtHQOSjTRA2pWV52-0rUTV'));
 
 		
