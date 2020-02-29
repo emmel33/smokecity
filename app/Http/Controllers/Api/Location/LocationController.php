@@ -87,7 +87,7 @@ class LocationController extends Controller
 		$message->setJsonKey("webpush", ["headers" => ["TTL" => $messagetimeout . ""]]);
 		$response = $client->send($message);
 		
-		$obj=new ResponseModel(""Info:,$message,1,null);
+		$obj=new ResponseModel("Info:",$message,1,null);
 		//$obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
         return response()->json($obj);
 		}
