@@ -119,7 +119,7 @@ class AuthController extends Controller
 	  $user=User::find($loginUser->original->id);
 	  
 	  $userfullname=$user->full_name;
-	  $obj=new ResponseModel($userfullname,1,null);
+	  $obj=new ResponseModel("",$userfullname,1,null);
       return response()->json($obj);
     }
 
@@ -151,6 +151,7 @@ class AuthController extends Controller
         "email" =>  $email,
         "name" => $user[0]->name,
         "id" => $user[0]->id,
+		"full_name" => $user[0]->full_name,
         "auth" => 'bearer '.$token,
         "userses" => null
       ];
