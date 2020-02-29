@@ -8,6 +8,13 @@ use App\Models\UserLocation;
 use App\Models\ResponseModel;
 use Illuminate\Support\Facades\DB;
 
+use sngrl\PhpFirebaseCloudMessaging\Client;
+use sngrl\PhpFirebaseCloudMessaging\Message;
+use sngrl\PhpFirebaseCloudMessaging\Recipient\Device;
+use sngrl\PhpFirebaseCloudMessaging\Notification;
+
+use App\Http\Controllers\Firebase\NotificationController
+
 class LocationController extends Controller
 {
     //
@@ -30,6 +37,12 @@ class LocationController extends Controller
 		if ($userLocation != null) {
 
 	    $temp = DB::select('UPDATE user_location SET date=?, long1=?, lat=?, timeactive=? WHERE userid=?', [now(),$long,$lat,$timeactive,$userid]);
+		
+		
+		
+		
+		
+		
 		$obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
         return response()->json($obj);
 		}
