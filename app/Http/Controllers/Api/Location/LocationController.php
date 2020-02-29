@@ -77,13 +77,6 @@ class LocationController extends Controller
 			
 		}
 		
-		
-		
-		
-		
-		$message->addRecipient(new Device('dIkEmJb0Hgw:APA91bFDGltZh5fDetlKOpZp4quZP9YNlmpyj2LHQeFEnzZ1nQtHc5HTcvhh5rxY8mRptGCbfsutUf1QBV0rSP_GTpQwaG8zK9SxV2rhJUMxLVRpgzHmtNgoioV65h_0rGLxcZdN1Stu'));
-		$message->addRecipient(new Device('dEc7UCC_9MA:APA91bHJrEg1GoCvRDrIH2AeLRaSVjfKazqkwZrXq23ROtd9REJzUf1MIuHSPAiCpMTtS3285BAvNL8GxArh1hM2FQrBSqk6EFCFNN0A5BEW2ArsryWvH7HtHQOSjTRA2pWV52-0rUTV'));
-		//$message->addRecipient(new Device('_YOUR_DEVICE_TOKEN_3_'));
 		$message
 			->setNotification(new Notification('Hallo', 'Nachricht'))
 			->setData(['key' => 'value']);
@@ -94,8 +87,8 @@ class LocationController extends Controller
 		$message->setJsonKey("webpush", ["headers" => ["TTL" => $messagetimeout . ""]]);
 		$response = $client->send($message);
 		
-		
-		$obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
+		$obj=new ResponseModel(""Info:,$message,1,null);
+		//$obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
         return response()->json($obj);
 		}
     }
