@@ -116,7 +116,7 @@ class AuthController extends Controller
       $loginUser=$this->getAuthUser($request);
 	  //$user=User::find($request->id)
 	  //oder
-	  $user=User::find($loginUser->id);
+	  $user=User::find($loginUser->original->id);
 	  
 	  $userfullname=$user->full_name;
 	  $obj=new ResponseModel("",$userfullname,1,null);
