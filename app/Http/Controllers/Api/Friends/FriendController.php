@@ -294,73 +294,62 @@ class FriendController extends Controller
                                        ->OrWhere('second_id',$currentUserId )
                                        ->get();
         $locationList = UserLocation::whereIn("userid",$listUserId)
-									//->whereNotNull("lat")
-		                             //->whereNotIn("lat","NULL")//nur wichtig für orts-liste
-                                    //->orderBy('date', 'desc')
                                     ->get();
-        //return $frindStatusList;
-        $set = new \Ds\Set();
 
-        $locationUniqueList=[];
-        for ($x = 0; $x < count($locationList); $x++) {
-            if($set->contains($locationList[$x]->userid) or $locationList[$x]->lat == null){
-                continue;
-            }
-            $set->add($locationList[$x]->userid);
-            array_push($locationUniqueList,$locationList[$x]);
-        }
-        $locationList=$locationUniqueList;
         $user=[];
-        for ($x = 0; $x < count($userList); $x++) {
-            $obj=[
-                "id"=>$userList[$x]->id,
-				"name"=>$userList[$x]->name,
-                "email"=>$userList[$x]->email,
-                "status"=>null,
-                "lat"=>null,
-                "long1"=>null,
-                "ufid"=>null
-            ];
-            $user[$userList[$x]->id]=$obj;
-        }
+	
+		
+			for ($x = 0; $x < count($userList); $x++) {
+				$obj=[
+					"id"=>$userList[$x]->id,
+					"name"=>$userList[$x]->name,
+					"email"=>$userList[$x]->email,
+					"status"=>null,
+					"lat"=>null,
+					"long1"=>null,
+					"ufid"=>null
+				];
+				$user[$userList[$x]->id]=$obj;
+			}
 
-        //return ["fl"=>$frindStatusList,"ul"=>$userList,"li"=>$listUserId];
-        for ($x = 0; $x < count($frindStatusList); $x++) {
-            if(array_key_exists($frindStatusList[$x]->second_id,$user)){
-                $obj=$user[$frindStatusList[$x]->second_id];
-                
-                $obj["status"]=$frindStatusList[$x]->status;
-                //$obj["ufid"]=$frindStatusList[$x]->id;
-                $obj["ufid"]=$frindStatusList[$x]->first_id;
-
-                $user[$frindStatusList[$x]->second_id]=$obj;
-            }else if(array_key_exists($frindStatusList[$x]->first_id,$user)){
-                //$obj=$user[$frindStatusList[$x]->friendid];
-                $obj=$user[$frindStatusList[$x]->first_id];
-                
-                $obj["status"]=$frindStatusList[$x]->status;
-                //$obj["ufid"]=$frindStatusList[$x]->id;
-                $obj["ufid"]=$frindStatusList[$x]->first_id;
-                $user[$frindStatusList[$x]->first_id]=$obj;
-            }
+        
+			for ($x = 0; $x < count($frindStatusList); $x++) {
+				if(array_key_exists($frindStatusList[$x]->second_id,$user)){
+					$obj=$user[$frindStatusList[$x]->second_id];
+					$obj["status"]=$frindStatusList[$x]->status;
+					$obj["ufid"]=$frindStatusList[$x]->first_id;
+					$user[$frindStatusList[$x]->second_id]=$obj;
+				
+				
+				}else if(array_key_exists($frindStatusList[$x]->first_id,$user)){
+					$obj=$user[$frindStatusList[$x]->first_id];
+					$obj["status"]=$frindStatusList[$x]->status;
+					$obj["ufid"]=$frindStatusList[$x]->first_id;
+					$user[$frindStatusList[$x]->first_id]=$obj;
+				}
             
-        }
+			}
 
-        //return ["locationList"=>$locationList,"user"=>$user];
-        for ($x = 0; $x < count($locationList); $x++) {
-            if(array_key_exists($locationList[$x]->userid,$user)){
-                $obj=$user[$locationList[$x]->userid];
-                $obj["lat"]=$locationList[$x]->lat;
-                $obj["long1"]=$locationList[$x]->long1;
-                $user[$locationList[$x]->userid]=$obj;
-            }
+			for ($x = 0; $x < count($locationList); $x++) {
+				if(array_key_exists($locationList[$x]->userid,$user)){
+					$obj=$user[$locationList[$x]->userid];
+					$timestamp=$locationList[$x]->date;
+					$oldtime=strtotime($timestamp);
+					
+					if((now()-$oldtime) > 1800)){
+						$obj["lat"]=$locationList[$x]->lat;
+						$obj["long1"]=$locationList[$x]->long1;
+					}
+					$user[$locationList[$x]->userid]=$obj;
+				}
             
-        }
+			}
         
         $arr=array();
         for ($x = 0; $x < count($userList); $x++) {
             array_push($arr,$user[$userList[$x]->id]);
         }
+		
         return $arr;
     }
 	
