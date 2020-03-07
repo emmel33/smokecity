@@ -89,7 +89,7 @@ class LocationController extends Controller
 		}
 		}
 		//$obj=new ResponseModel("Info:",$message,1,null); //zum debuggen
-	    $obj=new ResponseModel("Successfully updated.",$userLocation,1,null);
+	    $obj=new ResponseModel("",$userLocation,1,null);
         return response()->json($obj);
 		}
     }
