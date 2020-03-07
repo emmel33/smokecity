@@ -20,7 +20,7 @@ class FriendController extends Controller
         //userid ist die angefragte Freundesid
 		//id die eigene ID	
         if($existingRequest>0){
-            $obj=new ResponseModel("You have already a request pending.",null,1,null);
+            $obj=new ResponseModel("You have already a request pending.",null,0,null);
             return response()->json($obj);
         }
 		
@@ -29,7 +29,7 @@ class FriendController extends Controller
                                     ->count();
 									
 		if($existingRequest>0){
-            $obj=new ResponseModel("You have an outstanding a request from your friend.",null,1,null);
+            $obj=new ResponseModel("You have a request from your friend or are already in a friendship.",null,1,null);
             return response()->json($obj);
         }
        
