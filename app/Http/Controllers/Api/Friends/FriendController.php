@@ -104,6 +104,8 @@ class FriendController extends Controller
 
     public function searchUser(Request $request){
         $loginUser= $this->getAuthUser($request);
+		$userid= $loginUser->id;
+		
         $existingUser=User::where("name", 'like', '%'.$request->keyword.'%')
                                     ->orWhere("email", 'like', '%'.$request->keyword.'%')
 									->orWhere("full_name", 'like', '%'.$request->keyword.'%')//geändert, hinzugefügt
@@ -112,7 +114,9 @@ class FriendController extends Controller
         //return response()->json($existingUser);
         $userList=array();
         for ($x = 0; $x < count($existingUser); $x++) {
+			if($existingUser[$x]->id != $userid){
             array_push($userList,$existingUser[$x]->id);
+			}
         }
         //return response()->json($userList);
         $users=$this->getUserListWithDetails($loginUser->id,$userList);
