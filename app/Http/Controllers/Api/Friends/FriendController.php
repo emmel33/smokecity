@@ -29,7 +29,7 @@ class FriendController extends Controller
                                     ->count();
 									
 		if($existingRequest>0){
-            $obj=new ResponseModel("You have a request from your friend or are already in a friendship.",null,1,null);
+            $obj=new ResponseModel("You have a request from your friend or are already in a friendship.",null,0,null);
             return response()->json($obj);
         }
        
