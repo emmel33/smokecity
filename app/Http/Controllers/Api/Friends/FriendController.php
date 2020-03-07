@@ -146,29 +146,8 @@ class FriendController extends Controller
 
     public function getActiveFriendList(Request $request){
         $loginUser= $this->getAuthUser($request);
-        $existingRequest=UserFriend::where('second_id', $loginUser->id)
-                                    ->OrWhere('first_id', $loginUser->id)
-                                    ->get();
-       // $existingRequest=$existingRequest->where('status', 'Active')->get();
 
-        $userList=array();
-        $uniqueUser=[];
-        $uniqueUser[$loginUser->id]=true;
-        for ($x = 0; $x < count($existingRequest); $x++) {
-            if($existingRequest[$x]->status!='Active'){
-                continue;
-            }
-            if(!array_key_exists($existingRequest[$x]->first_id,$uniqueUser)){
-                array_push($userList,$existingRequest[$x]->first_id);
-                $uniqueUser[$existingRequest[$x]->first_id]=true;
-            }
-
-            if(!array_key_exists($existingRequest[$x]->second_id,$uniqueUser)){
-                array_push($userList,$existingRequest[$x]->second_id);
-                $uniqueUser[$existingRequest[$x]->second_id]=true;
-            }
-            
-        }
+		$userList = getFriendIDs($loginUser->id);
         
         $users=$this->getUserListWithDetails($loginUser->id,$userList);
        
@@ -179,25 +158,8 @@ class FriendController extends Controller
 //unten muss noch bearbeitet werden
     public function getFriendListOnMap(Request $request){
         $loginUser= $this->getAuthUser($request);
-        $existingRequest=UserFriend::where('second_id', $loginUser->id)
-                                    ->OrWhere('first_id', $loginUser->id)
-                                    ->where('status', 'Active')
-                                    ->get();
-        $userList=array();
-        $uniqueUser=[];
-        $uniqueUser[$loginUser->id]=true;
-        for ($x = 0; $x < count($existingRequest); $x++) {
-            if(!array_key_exists($existingRequest[$x]->first_id,$uniqueUser)){
-                array_push($userList,$existingRequest[$x]->first_id);
-                $uniqueUser[$existingRequest[$x]->first_id]=true;
-            }
-
-            if(!array_key_exists($existingRequest[$x]->second_id,$uniqueUser)){
-                array_push($userList,$existingRequest[$x]->second_id);
-                $uniqueUser[$existingRequest[$x]->second_id]=true;
-            }
-            
-        }
+		
+		$userList = getFriendIDs($loginUser->id);
 
         $users=$this->getUserListForMaps($loginUser->id,$userList);
 		
@@ -354,4 +316,31 @@ class FriendController extends Controller
     {
         return auth('api')->user();
     }
+	public function getFriendIDs($userid)
+	{
+        $existingRequest=UserFriend::where('second_id', $userid)
+                                    ->OrWhere('first_id', $userid)
+                                    ->get();		
+		
+		$userList=array();
+        $uniqueUser=[];
+        $uniqueUser[$loginUser->id]=true;
+        for ($x = 0; $x < count($existingRequest); $x++) {
+            if($existingRequest[$x]->status!='Active'){
+                continue;
+            }
+            if(!array_key_exists($existingRequest[$x]->first_id,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->first_id);
+                $uniqueUser[$existingRequest[$x]->first_id]=true;
+            }
+
+            if(!array_key_exists($existingRequest[$x]->second_id,$uniqueUser)){
+                array_push($userList,$existingRequest[$x]->second_id);
+                $uniqueUser[$existingRequest[$x]->second_id]=true;
+            }
+            
+        }
+        
+		return $userList;
+	}
 }
