@@ -73,8 +73,8 @@ class LocationController extends Controller
 		$message->addRecipient(new Device($wholeuserList[$x]->app_token));
 		//$message->addRecipient(new Device('dEc7UCC_9MA:APA91bHJrEg1GoCvRDrIH2AeLRaSVjfKazqkwZrXq23ROtd9REJzUf1MIuHSPAiCpMTtS3285BAvNL8GxArh1hM2FQrBSqk6EFCFNN0A5BEW2ArsryWvH7HtHQOSjTRA2pWV52-0rUTV'));
 
-		$mynamearray = DB::select('select name from users where id = ?', [$userid]);
-		$myname = $mynamearray->name;
+		$myname = DB::select('select name from users where id = ?', [$userid]);
+		//$myname = $mynamearray->name;
 		$message
 			->setNotification(new Notification('Come and enjoy!', "Your friend ". $myname ." is currently also smoking! Why you don't join him?"))
 			->setData(['key' => 'value']);
