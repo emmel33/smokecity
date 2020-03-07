@@ -159,7 +159,7 @@ class FriendController extends Controller
     public function getFriendListOnMap(Request $request){
         $loginUser= $this->getAuthUser($request);
 		
-		$userList = getFriendIDs($loginUser->id);
+		$userList = $this->getFriendIDs($loginUser->id);
 
         $users=$this->getUserListForMaps($loginUser->id,$userList);
 		
