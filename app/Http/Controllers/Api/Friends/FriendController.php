@@ -147,7 +147,7 @@ class FriendController extends Controller
     public function getActiveFriendList(Request $request){
         $loginUser= $this->getAuthUser($request);
 
-		$userList = getFriendIDs($loginUser->id);
+		$userList = $this->getFriendIDs($loginUser->id);
         
         $users=$this->getUserListWithDetails($loginUser->id,$userList);
        
@@ -316,6 +316,7 @@ class FriendController extends Controller
     {
         return auth('api')->user();
     }
+	
 	public function getFriendIDs($userid)
 	{
         $existingRequest=UserFriend::where('second_id', $userid)
