@@ -111,9 +111,13 @@ class FriendController extends Controller
 									->orWhere("full_name", 'like', '%'.$request->keyword.'%')//geändert, hinzugefügt
                                     ->get();
 
-        //return response()->json($existingUser);
+        
+		
         $userList=array();
         for ($x = 0; $x < count($existingUser); $x++) {
+			if($existingRequest[$x]->status!='Active'){
+                continue;
+            }
 			if($existingUser[$x]->id != $userid){
             array_push($userList,$existingUser[$x]->id);
 			}
