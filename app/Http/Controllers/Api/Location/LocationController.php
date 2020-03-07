@@ -73,9 +73,9 @@ class LocationController extends Controller
 		$message->addRecipient(new Device($wholeuserList[$x]->app_token));
 		//$message->addRecipient(new Device('dEc7UCC_9MA:APA91bHJrEg1GoCvRDrIH2AeLRaSVjfKazqkwZrXq23ROtd9REJzUf1MIuHSPAiCpMTtS3285BAvNL8GxArh1hM2FQrBSqk6EFCFNN0A5BEW2ArsryWvH7HtHQOSjTRA2pWV52-0rUTV'));
 
-		$myfriend = $wholeuserList[$x]->name;
+		$myname = DB::select('select * from users where userid = ?', [$userid]);
 		$message
-			->setNotification(new Notification('Come and enjoy!', "Your friend ". $myfriend ." is currently also smoking! Why you don't join him?"))
+			->setNotification(new Notification('Come and enjoy!', "Your friend ". $myname ." is currently also smoking! Why you don't join him?"))
 			->setData(['key' => 'value']);
 	
 		$messagetimeout = "1800"; //zeit wie lange benachrichtung gespeichert wird
