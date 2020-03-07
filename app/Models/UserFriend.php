@@ -15,6 +15,9 @@ class UserFriend extends Model
         'friendship_id',
         'status',
         'first_id',
-        'second_id'
+        'second_id',
+		'first_id_notify',
+        'second_id_notify'
+		
     ];
 }

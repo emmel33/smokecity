@@ -33,7 +33,7 @@ class LocationController extends Controller
 		if ($userLocation == null) {
 		$temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [$userid,now(),$long,$lat,$timeactive]);
 		
-		$obj=new ResponseModel("Userid is $userid",$userLocation,1,null);
+		$obj=new ResponseModel("Userid is $userid",$userLocation[0],1,null);
         return response()->json($obj);
 		}		
 		if ($userLocation != null) {
