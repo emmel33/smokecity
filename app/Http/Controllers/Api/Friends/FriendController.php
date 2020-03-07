@@ -115,9 +115,6 @@ class FriendController extends Controller
 		
         $userList=array();
         for ($x = 0; $x < count($existingUser); $x++) {
-			if($existingRequest[$x]->status!='Active'){
-                continue;
-            }
 			if($existingUser[$x]->id != $userid){
             array_push($userList,$existingUser[$x]->id);
 			}
