@@ -26,14 +26,14 @@ class LocationController extends Controller
 		$userid= $loginUser->id;
 		$lat= $request->lat;
 		$long= $request->long1;
-		$timeactive = 3600;//muss noch implementiert werden
+		$timeactive = $request->timeactive;//muss noch implementiert werden
 		
 		$userLocation = DB::select('select * from user_location where userid = ?', [$userid]);
 		
 		if ($userLocation == null) {
 		$temp = DB::select('INSERT INTO user_location VALUES (?, ?, ?, ?, ?)', [$userid,now(),$long,$lat,$timeactive]);
-		
-		$obj=new ResponseModel("Userid is $userid",$userLocation[0],1,null);
+		//$obj=new ResponseModel("Userid is $userid",$userLocation[0],1,null);
+		$obj=new ResponseModel("Userid is $userid",$userLocation,1,null);
         return response()->json($obj);
 		}		
 		if ($userLocation != null) {
