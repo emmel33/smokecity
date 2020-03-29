@@ -46,7 +46,7 @@ class AuthController extends Controller
 	$mypassword = $this->getAuthPassword($request);
 	  $loginUser=$this->getAuthUser($request);
       //return response()->json($loginUser);
-      $user=User::find($loginUser->original->id);
+      $user=User::find($request->email);
 
       $credentials=[
         "email" => $request->email,
