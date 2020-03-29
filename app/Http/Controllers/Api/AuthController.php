@@ -103,7 +103,7 @@ class AuthController extends Controller
 	  $user=User::find($loginUser->original->id);
 	  $firstfullname = $request->full_name;
 	  $secondfullname = $user->full_name;
-	  if(strcmp($firstfullname,$secondfullname) == 0){
+	  if(!(strcmp($firstfullname,$secondfullname)) == 0){
 		$existingUser=User::where("full_name",$request->full_name)->count();
 		if($existingUser>0){
 			$obj=new ResponseModel("",strcmp($firstfullname,$secondfullname),1,null);
