@@ -140,13 +140,13 @@ class EloquentUserProvider implements UserProvider
      */
     public function validateCredentials(UserContract $user, array $credentials)
     {//ob in array
-        if(in_array('password', $credentials[])
+        if(in_array('password', $credentials[]))
 		{
 			return true;
 		}
-		$plain = $credentials['password'];
+		else{$plain = $credentials['password'];
 
-        return $this->hasher->check($plain, $user->getAuthPassword());
+        return $this->hasher->check($plain, $user->getAuthPassword());}
     }
 
     /**
