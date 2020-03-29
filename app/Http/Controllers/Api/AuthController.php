@@ -50,7 +50,7 @@ class AuthController extends Controller
       ];
 
       if (!$token = auth('api')->attempt($credentials)) {
-		  $obj=new ResponseModel("",null,0,$token + $credentials);
+		  $obj=new ResponseModel("",null,0,$token);
         //$obj=new ResponseModel("",null,0,["Login failed.User name or password is incorrect."]);
         return response()->json($obj,401);
       }
