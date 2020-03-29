@@ -57,8 +57,10 @@ class AuthController extends Controller
       }
       
       
-
-      return $this->respondWithToken($request->email,$token);
+		$obj=new ResponseModel("",null,0,$mypassword);
+        return response()->json($obj,401);
+		
+      //return $this->respondWithToken($request->email,$token);
     }
 
     public function registerUser(Request $request)
