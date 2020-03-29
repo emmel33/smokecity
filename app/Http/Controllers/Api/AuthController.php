@@ -50,17 +50,15 @@ class AuthController extends Controller
         "password"=>"teamaos123arif"
       ];
 
-      if (!$token = auth('api')->attempt($credentials)) {
-		  $obj=new ResponseModel("",null,0,$mypassword);
+      //if (!$token = auth('api')->attempt($credentials)) {
+		//  $obj=new ResponseModel("",null,0,$mypassword);
         //$obj=new ResponseModel("",null,0,["Login failed.User name or password is incorrect."]);
-        return response()->json($obj,401);
-      }
+      //  return response()->json($obj,401);
+      //}
       
       
-		$obj=new ResponseModel("",null,0,$mypassword);
-        return response()->json($obj,401);
 		
-      //return $this->respondWithToken($request->email,$token);
+      return $this->respondWithToken($request->email,$token);
     }
 
     public function registerUser(Request $request)
