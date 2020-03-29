@@ -43,7 +43,6 @@ class AuthController extends Controller
 	public function loginSocial(Request $request)
     {
       //$credentials = $request->only(['email', 'password']);
-	$mypassword = $this->getAuthPassword($request);
       //return response()->json($loginUser);
       $user=User::find(402);//$request->email);
 
@@ -51,11 +50,10 @@ class AuthController extends Controller
         "email" => $request->email,
       ];
 
-      //if (!$token = auth('api')->attempt($credentials)) {
-		//  $obj=new ResponseModel("",null,0,$mypassword);
-        //$obj=new ResponseModel("",null,0,["Login failed.User name or password is incorrect."]);
-      //  return response()->json($obj,401);
-      //}
+      if (!$token = auth('api')->attempt($credentials)) {
+        $obj=new ResponseModel("",null,0,["Login failed.User name or password is incorrect."]);
+        return response()->json($obj,401);
+      }
       
       
 		//$obj=new ResponseModel("",null,0,$user);
