@@ -44,20 +44,16 @@ class AuthController extends Controller
     {
       //$credentials = $request->only(['email', 'password']);
       //return response()->json($loginUser);
-      $user=User::find(402);//$request->email);
+     
 
       $credentials=[
-        "email" => $request->email,
+        "email" => $request->email
       ];
 
       if (!$token = auth('api')->attempt($credentials)) {
         $obj=new ResponseModel("",null,0,["Login failed.User name or password is incorrect."]);
         return response()->json($obj,401);
       }
-      
-      
-		//$obj=new ResponseModel("",null,0,$user);
-        //return response()->json($obj,401);
       return $this->respondWithToken($request->email,$token);
     }
 
