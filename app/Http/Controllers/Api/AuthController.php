@@ -29,7 +29,18 @@ class AuthController extends Controller
       return $this->respondWithToken($request->email,$token);
     }
 
-    public function login(Request $request)
+     public function loginUser(Request $request)
+    {
+      $credentials = $request->only(['email', 'password']);
+
+      if (!$token = auth('api')->attempt($credentials)) {
+        $obj=new ResponseModel("",null,0,["Login failed.User name or password is incorrect."]);
+        return response()->json($obj,401);
+      }
+      return $this->respondWithToken($request->email,$token);
+    }
+	
+	public function loginSocial(Request $request)
     {
       //$credentials = $request->only(['email', 'password']);
 
@@ -42,7 +53,7 @@ class AuthController extends Controller
         $obj=new ResponseModel("",null,0,["Login failed.User name or password is incorrect."]);
         return response()->json($obj,401);
       }
-      //return response()->json();
+      
       
 
       return $this->respondWithToken($request->email,$token);
@@ -68,17 +79,6 @@ class AuthController extends Controller
       return $this->respondWithToken($request->email,$token);
     }
 
-    public function loginUser(Request $request)
-    {
-      $credentials = $request->only(['email', 'password']);
-
-      if (!$token = auth('api')->attempt($credentials)) {
-        //return response()->json(['error' => 'Unauthorized'], 401);
-        $obj=new ResponseModel("",null,0,["Login failed.User name or password is incorrect."]);
-        return response()->json($obj,401);
-      }
-      return $this->respondWithToken($request->email,$token);
-    }
 
     public function setAppToken(Request $request){
       $loginUser=$this->getAuthUser($request);

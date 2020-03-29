@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::get('user-location','Location\UserLocationController@locationList');
 
 Route::post('Register', 'Api\AuthController@register');
-Route::post('Login', 'Api\AuthController@login');
+Route::post('LoginSocial', 'Api\AuthController@loginSocial');
 Route::post('RegisterUser', 'Api\AuthController@registerUser');
 Route::post('LoginUser', 'Api\AuthController@loginUser');
 Route::get('Logout', 'Api\AuthController@logout');
