@@ -44,7 +44,6 @@ class AuthController extends Controller
     {
       //$credentials = $request->only(['email', 'password']);
 	$mypassword = $this->getAuthPassword($request);
-	  $loginUser=$this->getAuthUser($request);
       //return response()->json($loginUser);
       $user=User::find($request->email);
 
@@ -60,7 +59,7 @@ class AuthController extends Controller
       //}
       
       
-		$obj=new ResponseModel("",null,0,$user);
+		$obj=new ResponseModel("",null,0,$request);
         return response()->json($obj,401);
       //return $this->respondWithToken($request->email,$token);
     }
