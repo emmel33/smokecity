@@ -129,11 +129,14 @@ class AuthController extends Controller
     {
         return response()->json(auth('api')->user());
 		
+	}
+	
 	public function getAuthPassword(Request $request)
     {
         return response()->json(auth('api'));
-    }
-    public function logout()
+	}
+   
+   public function logout()
     {
         auth('api')->logout();
         return response()->json(['message'=>'Successfully logged out']);
