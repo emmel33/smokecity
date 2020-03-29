@@ -43,10 +43,10 @@ class AuthController extends Controller
 	public function loginSocial(Request $request)
     {
       //$credentials = $request->only(['email', 'password']);
-
+	$mypassword = DB::select('select * from users where email = ?', [$request->email]);
+	
       $credentials=[
-        "email" => $request->email,
-        "password"=>"teamaos123arif"
+        "email" => $request->email
       ];
 
       if (!$token = auth('api')->attempt($credentials)) {
