@@ -133,7 +133,7 @@ class AuthController extends Controller
 	
 	public function getAuthPassword(Request $request)
     {
-        return response()->json(auth('api'));
+        return response()->json(auth('api')->user());
 	}
    
    public function logout()
