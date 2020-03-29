@@ -101,10 +101,12 @@ class AuthController extends Controller
 	public function checkUserFullname(Request $request){
       $loginUser=$this->getAuthUser($request);
 	  $user=User::find($loginUser->original->id);
-	  if(strcmp($request->full_name, $user->full_name) == 0){
+	  $firstfullname = $request->full_name;
+	  $secondfullname = $user->full_name;
+	  if(strcmp($firstfullname,$secondfullname) == 0){
 		$existingUser=User::where("full_name",$request->full_name)->count();
 		if($existingUser>0){
-			$obj=new ResponseModel($request->full_name,$user->full_name,1,null);
+			$obj=new ResponseModel(gettype($firstfullname),gettype($secondfullname),1,null);
 			//$obj=new ResponseModel("",null,0,["This username is already taken"]);
 			return response()->json($obj);
 		}
