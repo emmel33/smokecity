@@ -43,7 +43,7 @@ class AuthController extends Controller
 	public function loginSocial(Request $request)
     {
       //$credentials = $request->only(['email', 'password']);
-	$mypassword = $user->getAuthPassword($request)
+	$mypassword = $user->getAuthPassword($request);
 
       $credentials=[
         "email" => $request->email,
