@@ -49,7 +49,6 @@ class AuthController extends Controller
 
       $credentials=[
         "email" => $request->email,
-        "password"=>"teamaos123arif"
       ];
 
       //if (!$token = auth('api')->attempt($credentials)) {
@@ -59,9 +58,9 @@ class AuthController extends Controller
       //}
       
       
-		$obj=new ResponseModel("",null,0,$user);
-        return response()->json($obj,401);
-      //return $this->respondWithToken($request->email,$token);
+		//$obj=new ResponseModel("",null,0,$user);
+        //return response()->json($obj,401);
+      return $this->respondWithToken($request->email,$token);
     }
 
     public function registerUser(Request $request)
