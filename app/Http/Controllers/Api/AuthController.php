@@ -44,6 +44,9 @@ class AuthController extends Controller
     {
       //$credentials = $request->only(['email', 'password']);
 	$mypassword = $this->getAuthPassword($request);
+	  $loginUser=$this->getAuthUser($request);
+      //return response()->json($loginUser);
+      $user=User::find($loginUser->original->id);
 
       $credentials=[
         "email" => $request->email,
@@ -165,12 +168,6 @@ class AuthController extends Controller
       ];
       $obj=new ResponseModel("Successfull",$data,1,null);
       return response()->json($obj);
-      // return response()->json([
-      //   'access_token' => 'bearer '.$token,
-      //   'token_type' => 'bearer',
-      //   //'expires_in' => auth()->factory()->getTTL() * 60
-      //   'expires_in' => auth('api')->factory()->getTTL() * 60
-      // ]);
       
     }
 
