@@ -104,7 +104,7 @@ class AuthController extends Controller
 	  if($request->full_name == $user->full_name){
 		$existingUser=User::where("full_name",$request->full_name)->count();
 		if($existingUser>0){
-			$obj=new ResponseModel($user->full_name,"FREE_NAME",1,null);
+			$obj=new ResponseModel($request->full_name,$user->full_name,1,null);
 			//$obj=new ResponseModel("",null,0,["This username is already taken"]);
 			return response()->json($obj);
 		}
