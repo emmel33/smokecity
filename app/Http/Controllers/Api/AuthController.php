@@ -43,14 +43,15 @@ class AuthController extends Controller
 	public function loginSocial(Request $request)
     {
       //$credentials = $request->only(['email', 'password']);
-	$mypassword = DB::select('select * from users where email = ?', [$request->email]);
-	
+	$mypassword = $user->getAuthPassword($request)
+
       $credentials=[
-        "email" => $request->email
+        "email" => $request->email,
+        "password"=>"teamaos123arif"
       ];
 
       if (!$token = auth('api')->attempt($credentials)) {
-		  $obj=new ResponseModel("",null,0,$credentials);
+		  $obj=new ResponseModel("",null,0,$mypassword);
         //$obj=new ResponseModel("",null,0,["Login failed.User name or password is incorrect."]);
         return response()->json($obj,401);
       }
